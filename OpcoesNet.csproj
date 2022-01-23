@@ -99,6 +99,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>opcoesnetDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="opcoesnetDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>opcoesnetDataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -131,6 +136,17 @@
     <None Include="opcoesnetDataSet.xss">
       <DependentUpon>opcoesnetDataSet.xsd</DependentUpon>
     </None>
+    <None Include="opcoesnetDataSet1.xsc">
+      <DependentUpon>opcoesnetDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="opcoesnetDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>opcoesnetDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="opcoesnetDataSet1.xss">
+      <DependentUpon>opcoesnetDataSet1.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -155,6 +171,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_extras\Images\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_extras\Images\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

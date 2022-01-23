@@ -18,7 +18,7 @@ namespace OpcoesNet.Database
                 {
                     conn.Open();
 
-                    MessageBox.Show("Conectado no banco de dados");
+                    //MessageBox.Show("Conectado no banco de dados");
 
                 }
             }
