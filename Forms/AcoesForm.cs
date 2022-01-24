@@ -44,10 +44,16 @@ namespace OpcoesNet.Forms
         private void buttonSalvar_Click(object sender, EventArgs e)
         {
             AcoesDB acoesDB = new Database.AcoesDB();
-            acoesDB.insertAcao(this.textTicker.Text.ToUpper(), Int32.Parse(this.textQuantidade.Text),  Decimal.Parse(this.textPrecoMedio.Text));
 
+            if (this.idAcao == null | this.idAcao == 0)
+            {
+                acoesDB.insertAcao(this.textTicker.Text.ToUpper(), Int32.Parse(this.textQuantidade.Text), Decimal.Parse(this.textPrecoMedio.Text));
+            } else
+            {
+                acoesDB.updateAcao(this.idAcao,  this.textTicker.Text.ToUpper(), Int32.Parse(this.textQuantidade.Text), Decimal.Parse(this.textPrecoMedio.Text));
+            }
+          
             this.reloadAcoesGrid();
-
 
             this.textTicker.ResetText();
             this.textQuantidade.ResetText();
@@ -67,7 +73,11 @@ namespace OpcoesNet.Forms
             MySqlConnection con = Database.DB.ConexaoBD();
 
             MySqlDataAdapter MyDA = new MySqlDataAdapter();
-            string sqlSelectAll = "SELECT * FROM Acoes";
+            string sqlSelectAll = " SELECT ID, Ticker, " +
+                                  "         quantidade as 'Qtde', " +
+                                  "         preco_medio as 'Médio', " + 
+                                  "         quantidade * preco_medio as 'Total'" +
+                                  " FROM Acoes ORDER BY Ticker";
             MyDA.SelectCommand = new MySqlCommand(sqlSelectAll, con);
 
             DataTable table = new DataTable();
@@ -77,9 +87,16 @@ namespace OpcoesNet.Forms
             bSource.DataSource = table;
 
 
-            dataGridView1.DataSource = bSource;
+            this.dataGridViewAcoes.DataSource = bSource;
+            this.dataGridViewAcoes.Rows[0].Selected = true;
 
-            this.dataGridView1.Rows[0].Selected = true;
+
+            dataGridViewAcoes.Columns["ID"].Width = 50;
+            dataGridViewAcoes.Columns["Ticker"].Width = 70;
+            dataGridViewAcoes.Columns["Qtde"].Width = 70;
+            dataGridViewAcoes.Columns["Médio"].Width = 70;
+            dataGridViewAcoes.Columns["Total"].Width = 100;
+
 
             Database.DB.closeConnection(con);
         }
@@ -101,32 +118,32 @@ namespace OpcoesNet.Forms
         //------------------------------
 
 
-        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewAcoes_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dataGridViewAcoes.SelectedRows.Count > 0)
             {
-                int firstRowIndex = dataGridView1.SelectedRows.Count - 1;
+                int firstRowIndex = dataGridViewAcoes.SelectedRows.Count - 1;
 
-                string cellId = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+
+                var row = dataGridViewAcoes.SelectedRows[0];
+
+                string cellId = row.Cells[0].Value.ToString();
                 this.idAcao =  Int32.Parse(cellId);
 
 
-                string cellTicker = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                string cellTicker = dataGridViewAcoes.SelectedRows[0].Cells[1].Value.ToString();
                 this.ticker = cellTicker;
 
-                string cellQuantidade = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
-                string cellPM = dataGridView1.SelectedRows[0].Cells[3].Value.ToString();
+                string cellQuantidade = dataGridViewAcoes.SelectedRows[0].Cells[2].Value.ToString();
+                string cellPM = dataGridViewAcoes.SelectedRows[0].Cells[3].Value.ToString();
 
 
-                this.labelTicker.Text = cellTicker;
                 this.textTicker.Text = cellTicker;
                 this.textQuantidade.Text = cellQuantidade;
                 this.textPrecoMedio.Text = cellPM;
 
-
-
-                //MessageBox.Show("ID:" + cellId + " Ticker: " + cellTicker);
-
+                //
+                clearMovimentacaoFields(false);
                 this.updateMovimentacoesList( Int32.Parse(cellId) );
             }
 
@@ -140,8 +157,10 @@ namespace OpcoesNet.Forms
             MySqlDataAdapter myDA = new MySqlDataAdapter();
             string sqlSelectAll = " SELECT t1.id as ID, " + 
                                   "        t1.data_registro as 'Dt.Registro', " + 
-                                  "        t2.ticker as 'Ticker', " + 
-                                  "        t1.quantidade as 'Qtde', t1.preco as 'Preço', t1.quantidade * t1.preco as 'Total', " + 
+//                                  "        t2.ticker as 'Ticker', " + 
+                                  "        t1.quantidade as 'Qtde', " + 
+                                  "        t1.preco as 'Preço', " +
+                                  //"       t1.quantidade * t1.preco as 'Total', " + 
                                   "        t1.descricao as 'Descrição'" +
                                   " FROM ACOES_MOVIMENTACOES t1 LEFT OUTER JOIN ACOES t2 ON t1.acoes_id = t2.id" +
                                   " WHERE t2.id = " + idAcao;
@@ -157,15 +176,6 @@ namespace OpcoesNet.Forms
             dataGridViewMovimentacoes.DataSource = bindingSource;
 
 
-            //dataGridViewMovimentacoes.Columns[0].Name = "ID";
-            //dataGridViewMovimentacoes.Columns[1].Name = "Dt. Registro";
-            //dataGridViewMovimentacoes.Columns[2].Name = "TICKER";
-            //dataGridViewMovimentacoes.Columns[3].Name = "Qtde.";
-            //dataGridViewMovimentacoes.Columns[4].Name = "Preço";
-            //dataGridViewMovimentacoes.Columns[5].Name = "Descrição";
-
-
-
             //DataGridViewButtonColumn uninstallButtonColumn = new DataGridViewButtonColumn();
             //uninstallButtonColumn.Name = "uninstall_column";
             //uninstallButtonColumn.Text = "Uninstall";
@@ -176,6 +186,14 @@ namespace OpcoesNet.Forms
             //}
 
 
+            dataGridViewMovimentacoes.Columns["ID"].Width = 50;
+
+            dataGridViewMovimentacoes.Columns["Qtde"].Width = 70;
+            dataGridViewMovimentacoes.Columns["Preço"].Width = 70;
+            dataGridViewMovimentacoes.Columns["Descrição"].Width = 420;
+
+
+            
             Database.DB.closeConnection(con);
 
         }
@@ -186,19 +204,26 @@ namespace OpcoesNet.Forms
 
 
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //--------------------
         private void buttonNovaMovimentacao_Click(object sender, EventArgs e)
         {
+            clearMovimentacaoFields();
+        }
+
+        private void clearMovimentacaoFields(bool selecionarQuantidade = true)
+        {
+            this.labelTicker.Text = this.ticker;
             this.textQuantidadeMovimentacoes.ResetText();
             this.textPrecoMovimentacoes.ResetText();
-            this.textDataMovimentacao.ResetText();
+            this.dateTimeMovimentacao.ResetText();
             this.textDescricaoMovimentacao.ResetText();
-            this.textQuantidadeMovimentacoes.Select();
+
+            if (selecionarQuantidade) 
+                this.textQuantidadeMovimentacoes.Select();
+
         }
+
+        //------------
 
         private void buttonSalvarMovimentacao_Click(object sender, EventArgs e)
         {
@@ -206,8 +231,8 @@ namespace OpcoesNet.Forms
             //
             long id = this.dbFactory.getAcoesDB().insertMovimentacao(this.idAcao, 
                                                                      Int32.Parse(this.textQuantidadeMovimentacoes.Text), 
-                                                                     Decimal.Parse(this.textPrecoMovimentacoes.Text), 
-                                                                     this.textDataMovimentacao.Text, 
+                                                                     Decimal.Parse(this.textPrecoMovimentacoes.Text),
+                                                                     Helpers.MySQLHelper.convertDateFromBR(this.dateTimeMovimentacao.Text),
                                                                      this.textDescricaoMovimentacao.Text);
 
             //
@@ -216,16 +241,17 @@ namespace OpcoesNet.Forms
             //
             this.textQuantidadeMovimentacoes.ResetText();
             this.textPrecoMovimentacoes.ResetText();
-            this.textDataMovimentacao.ResetText();
+            this.dateTimeMovimentacao.ResetText();
             this.textDescricaoMovimentacao.ResetText();
             this.textQuantidadeMovimentacoes.Select();
 
+
+            //
+            this.dbFactory.getAcoesDB().atualizarQuantidade(this.idAcao);
+            this.reloadAcoesGrid();
+
         }
 
-        private void buttonRemoverMovimentacao_Click(object sender, EventArgs e)
-        {
-
-        }
 
 
 
@@ -240,10 +266,69 @@ namespace OpcoesNet.Forms
         }
 
 
-        //----------------
-
-        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        // ----------------
+        private void dataGridViewMovimentacoes_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+
+            if (dataGridViewMovimentacoes.SelectedRows.Count > 0)
+            {
+                int firstRowIndex = dataGridViewMovimentacoes.SelectedRows.Count - 1;
+
+                string cellId = dataGridViewMovimentacoes.SelectedRows[0].Cells[0].Value.ToString();
+                this.idMovimentacao = Int32.Parse(cellId);
+
+                string dataRegistro = dataGridViewMovimentacoes.SelectedRows[0].Cells[1].Value.ToString();
+                string quantidade = dataGridViewMovimentacoes.SelectedRows[0].Cells[2].Value.ToString();
+                string preco = dataGridViewMovimentacoes.SelectedRows[0].Cells[3].Value.ToString();
+                string descricao = dataGridViewMovimentacoes.SelectedRows[0].Cells[4].Value.ToString();
+
+
+                this.dateTimeMovimentacao.Text = dataRegistro;
+                this.textQuantidadeMovimentacoes.Text = quantidade;
+                this.textPrecoMovimentacoes.Text = preco;
+                this.textDescricaoMovimentacao.Text = descricao;
+
+            }
+
+
+        }
+
+        private void dataGridViewMovimentacoes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if ((e.KeyChar.ToString().ToUpper() == "D") && (this.dataGridViewMovimentacoes.Rows.Count > 0))
+            {
+
+                var confirmResult = MessageBox.Show(this.ticker + " / " + this.textQuantidadeMovimentacoes.Text + " / " + this.textPrecoMovimentacoes.Text + 
+                                                    "\n\nMovimentação selecionada será removida. \nVocê Realmente deseja continuar?", 
+                                                    "Confirmar Exclusão", 
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // remover registro de movimentação
+                    this.dbFactory.getAcoesDB().deleteMovimentacoesById(this.idMovimentacao);
+
+
+
+                    // atualizar lista de ativos e de movimentação
+                    this.updateMovimentacoesList(this.idAcao);
+                    this.reloadAcoesGrid();
+
+                    this.clearMovimentacaoFields();
+
+                    //
+                    this.dbFactory.getAcoesDB().atualizarQuantidade(this.idAcao);
+                    this.reloadAcoesGrid();
+                }
+
+            }
+
+        }
+
+        private void dataGridViewAcoes_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+
 
             if (e.KeyChar.ToString().ToUpper() == "D")
             {
@@ -258,18 +343,15 @@ namespace OpcoesNet.Forms
 
                     // atualizar lista de ativos
                     this.reloadAcoesGrid();
-                    this.dataGridView1.Rows[0].Selected = true;
+                    this.dataGridViewAcoes.Rows[0].Selected = true;
 
                 }
 
             }
 
-
-
         }
 
-
-
+        
 
 
         //----------------

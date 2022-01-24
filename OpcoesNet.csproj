@@ -96,6 +96,7 @@
       <DependentUpon>SobreForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FieldFormatHelper.cs" />
+    <Compile Include="Helpers\MySQLHelper.cs" />
     <Compile Include="opcoesnetDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
