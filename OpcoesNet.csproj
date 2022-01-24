@@ -176,6 +176,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="_extras\Images\new.png" />
   </ItemGroup>
   <ItemGroup>
