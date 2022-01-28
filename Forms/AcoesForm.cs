@@ -155,15 +155,16 @@ namespace OpcoesNet.Forms
             MySqlConnection con = Database.DB.ConexaoBD();
 
             MySqlDataAdapter myDA = new MySqlDataAdapter();
-            string sqlSelectAll = " SELECT t1.id as ID, " + 
-                                  "        t1.data_registro as 'Dt.Registro', " + 
-//                                  "        t2.ticker as 'Ticker', " + 
-                                  "        t1.quantidade as 'Qtde', " + 
+            string sqlSelectAll = " SELECT t1.id as ID, " +
+                                  "        t1.data_registro as 'Dt.Registro', " +
+                                  //                                  "        t2.ticker as 'Ticker', " + 
+                                  "        t1.quantidade as 'Qtde', " +
                                   "        t1.preco as 'Preço', " +
                                   //"       t1.quantidade * t1.preco as 'Total', " + 
-                                  "        t1.descricao as 'Descrição'" +
+                                  "        t1.descricao as 'Descrição', createdAt" +
                                   " FROM ACOES_MOVIMENTACOES t1 LEFT OUTER JOIN ACOES t2 ON t1.acoes_id = t2.id" +
-                                  " WHERE t2.id = " + idAcao;
+                                  " WHERE t2.id = " + idAcao +
+                                  " ORDER BY data_registro";
 
             myDA.SelectCommand = new MySqlCommand(sqlSelectAll, con);
 
@@ -190,10 +191,11 @@ namespace OpcoesNet.Forms
 
             dataGridViewMovimentacoes.Columns["Qtde"].Width = 70;
             dataGridViewMovimentacoes.Columns["Preço"].Width = 70;
-            dataGridViewMovimentacoes.Columns["Descrição"].Width = 420;
+            dataGridViewMovimentacoes.Columns["Descrição"].Width = 340;
+            dataGridViewMovimentacoes.Columns["createdAt"].Width = 120;
 
 
-            
+
             Database.DB.closeConnection(con);
 
         }
@@ -351,7 +353,51 @@ namespace OpcoesNet.Forms
 
         }
 
-        
+        private void buttonBuy_Click(object sender, EventArgs e)
+        {
+            adicionarMovimentacao();
+        }
+
+        private void buttonSell_Click(object sender, EventArgs e)
+        {
+            adicionarMovimentacao(false);
+        }
+
+
+
+        private void adicionarMovimentacao(bool flagCompra = true)
+        {
+
+            int quantidade = (flagCompra ? Int32.Parse(this.textQuantidadeMovimentacoes.Text) : Int32.Parse(this.textQuantidadeMovimentacoes.Text) * -1);
+
+            //
+            long id = this.dbFactory.getAcoesDB().insertMovimentacao(this.idAcao,
+                                                                     quantidade,
+                                                                     Decimal.Parse(this.textPrecoMovimentacoes.Text),
+                                                                     Helpers.MySQLHelper.convertDateFromBR(this.dateTimeMovimentacao.Text),
+                                                                     this.textDescricaoMovimentacao.Text);
+
+            //
+            this.updateMovimentacoesList(this.idAcao);
+
+            //
+            this.textQuantidadeMovimentacoes.ResetText();
+            this.textPrecoMovimentacoes.ResetText();
+            this.dateTimeMovimentacao.ResetText();
+            this.textDescricaoMovimentacao.ResetText();
+            this.textQuantidadeMovimentacoes.Select();
+
+
+            //
+            this.dbFactory.getAcoesDB().atualizarQuantidade(this.idAcao);
+            this.reloadAcoesGrid();
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
         //----------------

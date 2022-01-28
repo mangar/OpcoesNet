@@ -149,7 +149,8 @@ namespace OpcoesNet.Database
             MySqlCommand comm = this.myConn.CreateCommand();
             string stmtPrecoEQtde = " SELECT acoes_id, quantidade, preco, quantidade * preco as total " +
                                     " FROM ACOES_MOVIMENTACOES " +
-                                    " WHERE acoes_id = " + idAtivo;
+                                    " WHERE acoes_id = " + idAtivo +
+                                    " ORDER BY data_registro";
 
             MySqlCommand sqlcommand = new MySqlCommand(stmtPrecoEQtde, this.myConn);
 

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AcoesForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.acoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.opcoesnetDataSet1 = new OpcoesNet.opcoesnetDataSet1();
+            this.dataGridViewAcoes = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonNovo = new System.Windows.Forms.Button();
@@ -42,9 +42,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.acoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.opcoesnetDataSet1 = new OpcoesNet.opcoesnetDataSet1();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.dateTimeMovimentacao = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.textDescricaoMovimentacao = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -56,19 +59,22 @@
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonNovaMovimentacao = new System.Windows.Forms.Button();
-            this.buttonSalvarMovimentacao = new System.Windows.Forms.Button();
             this.dataGridViewMovimentacoes = new System.Windows.Forms.DataGridView();
             this.opcoesnetDataSet = new OpcoesNet.opcoesnetDataSet();
             this.opcoesnetDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.acoesTableAdapter = new OpcoesNet.opcoesnetDataSet1TableAdapters.acoesTableAdapter();
-            this.dateTimeMovimentacao = new System.Windows.Forms.DateTimePicker();
-            this.dataGridViewAcoes = new System.Windows.Forms.DataGridView();
+            this.buttonBuy = new System.Windows.Forms.Button();
+            this.buttonSell = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.acoesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAcoes)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.acoesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -77,7 +83,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAcoes)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -89,20 +96,27 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(517, 854);
+            this.groupBox1.Size = new System.Drawing.Size(517, 774);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ativos";
             // 
-            // acoesBindingSource
+            // dataGridViewAcoes
             // 
-            this.acoesBindingSource.DataMember = "acoes";
-            this.acoesBindingSource.DataSource = this.opcoesnetDataSet1;
-            // 
-            // opcoesnetDataSet1
-            // 
-            this.opcoesnetDataSet1.DataSetName = "opcoesnetDataSet1";
-            this.opcoesnetDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.dataGridViewAcoes.AllowUserToAddRows = false;
+            this.dataGridViewAcoes.AllowUserToDeleteRows = false;
+            this.dataGridViewAcoes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAcoes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dataGridViewAcoes.Location = new System.Drawing.Point(7, 151);
+            this.dataGridViewAcoes.MultiSelect = false;
+            this.dataGridViewAcoes.Name = "dataGridViewAcoes";
+            this.dataGridViewAcoes.ReadOnly = true;
+            this.dataGridViewAcoes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewAcoes.Size = new System.Drawing.Size(503, 616);
+            this.dataGridViewAcoes.TabIndex = 0;
+            this.dataGridViewAcoes.TabStop = false;
+            this.dataGridViewAcoes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAcoes_RowEnter);
+            this.dataGridViewAcoes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewAcoes_KeyPress_1);
             // 
             // groupBox3
             // 
@@ -204,6 +218,16 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Ticker:";
             // 
+            // acoesBindingSource
+            // 
+            this.acoesBindingSource.DataMember = "acoes";
+            this.acoesBindingSource.DataSource = this.opcoesnetDataSet1;
+            // 
+            // opcoesnetDataSet1
+            // 
+            this.opcoesnetDataSet1.DataSetName = "opcoesnetDataSet1";
+            this.opcoesnetDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.groupBox5);
@@ -213,7 +237,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(813, 854);
+            this.groupBox2.Size = new System.Drawing.Size(813, 774);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Movimentações";
@@ -245,6 +269,14 @@
             this.groupBox7.Size = new System.Drawing.Size(618, 100);
             this.groupBox7.TabIndex = 69;
             this.groupBox7.TabStop = false;
+            // 
+            // dateTimeMovimentacao
+            // 
+            this.dateTimeMovimentacao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimeMovimentacao.Location = new System.Drawing.Point(493, 21);
+            this.dateTimeMovimentacao.Name = "dateTimeMovimentacao";
+            this.dateTimeMovimentacao.Size = new System.Drawing.Size(119, 22);
+            this.dateTimeMovimentacao.TabIndex = 90;
             // 
             // label8
             // 
@@ -327,8 +359,9 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.buttonSell);
+            this.groupBox6.Controls.Add(this.buttonBuy);
             this.groupBox6.Controls.Add(this.buttonNovaMovimentacao);
-            this.groupBox6.Controls.Add(this.buttonSalvarMovimentacao);
             this.groupBox6.Location = new System.Drawing.Point(630, 13);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(152, 100);
@@ -347,18 +380,6 @@
             this.buttonNovaMovimentacao.UseVisualStyleBackColor = true;
             this.buttonNovaMovimentacao.Click += new System.EventHandler(this.buttonNovaMovimentacao_Click);
             // 
-            // buttonSalvarMovimentacao
-            // 
-            this.buttonSalvarMovimentacao.Image = global::OpcoesNet.Properties.Resources.save;
-            this.buttonSalvarMovimentacao.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSalvarMovimentacao.Location = new System.Drawing.Point(16, 59);
-            this.buttonSalvarMovimentacao.Name = "buttonSalvarMovimentacao";
-            this.buttonSalvarMovimentacao.Size = new System.Drawing.Size(130, 30);
-            this.buttonSalvarMovimentacao.TabIndex = 98;
-            this.buttonSalvarMovimentacao.Text = "Salvar";
-            this.buttonSalvarMovimentacao.UseVisualStyleBackColor = true;
-            this.buttonSalvarMovimentacao.Click += new System.EventHandler(this.buttonSalvarMovimentacao_Click);
-            // 
             // dataGridViewMovimentacoes
             // 
             this.dataGridViewMovimentacoes.AllowUserToAddRows = false;
@@ -370,7 +391,7 @@
             this.dataGridViewMovimentacoes.Name = "dataGridViewMovimentacoes";
             this.dataGridViewMovimentacoes.ReadOnly = true;
             this.dataGridViewMovimentacoes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewMovimentacoes.Size = new System.Drawing.Size(794, 696);
+            this.dataGridViewMovimentacoes.Size = new System.Drawing.Size(794, 616);
             this.dataGridViewMovimentacoes.TabIndex = 0;
             this.dataGridViewMovimentacoes.TabStop = false;
             this.dataGridViewMovimentacoes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMovimentacoes_RowEnter);
@@ -395,36 +416,77 @@
             // 
             this.acoesTableAdapter.ClearBeforeFill = true;
             // 
-            // dateTimeMovimentacao
+            // buttonBuy
             // 
-            this.dateTimeMovimentacao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimeMovimentacao.Location = new System.Drawing.Point(493, 21);
-            this.dateTimeMovimentacao.Name = "dateTimeMovimentacao";
-            this.dateTimeMovimentacao.Size = new System.Drawing.Size(119, 22);
-            this.dateTimeMovimentacao.TabIndex = 90;
+            this.buttonBuy.BackColor = System.Drawing.Color.RoyalBlue;
+            this.buttonBuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonBuy.ForeColor = System.Drawing.Color.White;
+            this.buttonBuy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonBuy.Location = new System.Drawing.Point(16, 59);
+            this.buttonBuy.Name = "buttonBuy";
+            this.buttonBuy.Size = new System.Drawing.Size(60, 30);
+            this.buttonBuy.TabIndex = 99;
+            this.buttonBuy.Text = "C";
+            this.buttonBuy.UseVisualStyleBackColor = false;
+            this.buttonBuy.Click += new System.EventHandler(this.buttonBuy_Click);
             // 
-            // dataGridViewAcoes
+            // buttonSell
             // 
-            this.dataGridViewAcoes.AllowUserToAddRows = false;
-            this.dataGridViewAcoes.AllowUserToDeleteRows = false;
-            this.dataGridViewAcoes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAcoes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dataGridViewAcoes.Location = new System.Drawing.Point(7, 151);
-            this.dataGridViewAcoes.MultiSelect = false;
-            this.dataGridViewAcoes.Name = "dataGridViewAcoes";
-            this.dataGridViewAcoes.ReadOnly = true;
-            this.dataGridViewAcoes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewAcoes.Size = new System.Drawing.Size(503, 696);
-            this.dataGridViewAcoes.TabIndex = 0;
-            this.dataGridViewAcoes.TabStop = false;
-            this.dataGridViewAcoes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAcoes_RowEnter);
-            this.dataGridViewAcoes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewAcoes_KeyPress_1);
+            this.buttonSell.BackColor = System.Drawing.Color.Crimson;
+            this.buttonSell.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSell.ForeColor = System.Drawing.Color.White;
+            this.buttonSell.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonSell.Location = new System.Drawing.Point(88, 59);
+            this.buttonSell.Name = "buttonSell";
+            this.buttonSell.Size = new System.Drawing.Size(60, 30);
+            this.buttonSell.TabIndex = 100;
+            this.buttonSell.Text = "V";
+            this.buttonSell.UseVisualStyleBackColor = false;
+            this.buttonSell.Click += new System.EventHandler(this.buttonSell_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.pictureBox1);
+            this.groupBox8.Controls.Add(this.textBox1);
+            this.groupBox8.Location = new System.Drawing.Point(16, 796);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(1338, 64);
+            this.groupBox8.TabIndex = 2;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Finalidade da Tela";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(49, 23);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(1277, 34);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = "1) [Ativos] Criar novas posições em ações\r\n2) [Movimentações] Alteração de posiçã" +
+    "o em ativos pré existentes (seja por negociação no mercado diretamente ou por ex" +
+    "ercício de Opc.";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(16, 32);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(16, 16);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // AcoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1363, 872);
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -437,11 +499,12 @@
             this.Text = "Ações";
             this.Load += new System.EventHandler(this.AcoesForm_Load);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.acoesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAcoes)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.acoesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
@@ -451,7 +514,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.opcoesnetDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAcoes)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -486,12 +551,16 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button buttonNovaMovimentacao;
-        private System.Windows.Forms.Button buttonSalvarMovimentacao;
         private System.Windows.Forms.Label labelTicker;
         private System.Windows.Forms.TextBox textDescricaoMovimentacao;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DateTimePicker dateTimeMovimentacao;
         private System.Windows.Forms.DataGridView dataGridViewAcoes;
+        private System.Windows.Forms.Button buttonSell;
+        private System.Windows.Forms.Button buttonBuy;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
